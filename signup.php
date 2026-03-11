@@ -89,8 +89,8 @@ include 'include/header.php';
 											<img src="assets/images/atiba/founder.png" class="leader-img w-100">
 
 											<div class="p-4">
-												<h5 class="fw-bold mb-1 text-white">Dr. James O. Ojebode</h5>
-												<div class="leader-badge">Founder</div>
+												<h5 class="fw-bold mb-1 text-white">Dr James Adesokan OJEBODE</h5>
+												<div class="leader-badge">The President/Founder</div>
 											</div>
 
 										</div>
