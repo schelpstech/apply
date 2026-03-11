@@ -18,7 +18,7 @@ if (
 $applicantId = $_SESSION['applicant_id'];
 $email = $_SESSION['applicant_email'];
 $amount = 20300; // ₦20,300
-$callbackUrl = "http://localhost/atiba/app/applicant/verifypayment.php";
+$callbackUrl = "https://atibaodl.schelps.com.ng/app/applicant/verifypayment.php";
 
 // Generate unique reference
 $reference = strtoupper($utility->generateRandomString(8));
