@@ -52,18 +52,18 @@ class User
 
             $mail = new PHPMailer(true);
 
-            // SMTP Settings
+            // Server settings
             $mail->isSMTP();
-            $mail->Host       = 'mail.owutechconsult.com.ng';
+            $mail->Host       = 'mail.schelps.com.ng'; // e.g., smtp.gmail.com
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'atibaodl@owutechconsult.com.ng';
+            $mail->Username   = 'atibaodl@schelps.com.ng';
             $mail->Password   = 'MaskedPan@890';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('atibaodl@owutechconsult.com.ng', 'Queenzy Stores');
+            // Recipients
+            $mail->setFrom('atibaodl@schelps.com.ng', 'Atiba University ODL');
             $mail->addAddress($email);
-
             $mail->isHTML(true);
             $mail->CharSet = 'UTF-8';
             $mail->Subject = "Verify Your Email";
@@ -265,31 +265,30 @@ class User
         }
     }
 
-public function getUserProfile($userId)
-{
-    // Step 1: Get base user info (email, phone, etc.)
-    $user = $this->model->getRows("users_mart", [
-        "where" => ["user_id" => $userId],
-        "return_type" => "single"
-    ]);
+    public function getUserProfile($userId)
+    {
+        // Step 1: Get base user info (email, phone, etc.)
+        $user = $this->model->getRows("users_mart", [
+            "where" => ["user_id" => $userId],
+            "return_type" => "single"
+        ]);
 
-    if (!$user) {
-        return null; // user not found
+        if (!$user) {
+            return null; // user not found
+        }
+
+        // Step 2: Check if profile exists
+        $profile = $this->model->getRows("user_profiles", [
+            "where" => ["user_id" => $userId],
+            "return_type" => "single"
+        ]);
+
+        // Step 3: Merge results
+        if ($profile) {
+            return array_merge($user, $profile);
+        }
+
+        // If no profile, return just users_mart fields
+        return $user;
     }
-
-    // Step 2: Check if profile exists
-    $profile = $this->model->getRows("user_profiles", [
-        "where" => ["user_id" => $userId],
-        "return_type" => "single"
-    ]);
-
-    // Step 3: Merge results
-    if ($profile) {
-        return array_merge($user, $profile);
-    }
-
-    // If no profile, return just users_mart fields
-    return $user;
-}
-
 }
