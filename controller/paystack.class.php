@@ -5,7 +5,7 @@ class PaystackPayment
 
     public function __construct()
     {
-        $this->secretKey = 'sk_live_19aa23eeac2b26a35accde5da98d6b73cce8bcc8'; // Replace with your Paystack secret key
+        $this->secretKey = ''; // Replace with your Paystack secret key
     }
 
     public function initializePayment($email, $amount, $callbackUrl, $reference = null)
