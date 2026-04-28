@@ -84,7 +84,7 @@ Page content START -->
                         <div class="mt-2 mt-sm-0">
                             <?php if (!$progress['admission_payment']) { ?>
                                 <a href="../app/applicant/paymentHandler.php" class="btn btn-gradient btn-sm mb-1">
-                                    Pay Portal Application Fee - ₦3,200
+                                    Pay Portal Application Fee - ₦23,200
                                 </a>
                             <?php } ?>
                         </div>

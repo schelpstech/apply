@@ -9,7 +9,7 @@ if (
     || empty($_SESSION['applicant_email']) || !isset($_SESSION['applicant_email'])
 ) {
     $utility->setFlash("danger", "❌ Please log in to access the dashboard.");
-    header("Location: ../signin.php");
+    header("Location: ../../signin.php");
     exit;
 }
 
@@ -17,8 +17,8 @@ if (
 // Applicant info
 $applicantId = $_SESSION['applicant_id'];
 $email = $_SESSION['applicant_email'];
-$amount = 3200; // ₦3,200
-$callbackUrl = "http://localhost/apply/app/applicant/verifypayment.php";
+$amount = 23200; // ₦23,200
+$callbackUrl = "https://atibaodl.schelps.com.ng/app/applicant/verifypayment.php";
 
 // Generate unique reference
 $reference = strtoupper($utility->generateRandomString(8));

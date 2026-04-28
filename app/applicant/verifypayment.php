@@ -9,7 +9,7 @@ if (
     || empty($_SESSION['applicant_email']) || !isset($_SESSION['applicant_email'])
 ) {
     $utility->setFlash("danger", "❌ Please log in to access the dashboard.");
-    header("Location: ../signin.php");
+    header("Location: ../../signin.php");
     exit;
 }
 
