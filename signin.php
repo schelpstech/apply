@@ -53,7 +53,7 @@ include 'include/header.php';
                             </div>
 
                             <div class="text-center small">
-                                Forgot Password? <a href="forgotpassword.php" class="fw-semibold">Reset here</a><br>
+                                Forgot Password? <a href="#" class="fw-semibold">Reset here</a><br>
                                 Not registered yet? <a href="signup.php" class="fw-semibold">Sign up here</a><br>
                                 Email Not Verified? <a href="resendverification.php" class="fw-semibold">Resend here</a>
                             </div>

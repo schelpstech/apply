@@ -7,7 +7,6 @@ include("./inc/head.php");
     <?php
     include("./inc/header.php");
     ?>
-
     <!-- **************** MAIN CONTENT START **************** -->
     <main>
         <?php
