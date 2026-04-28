@@ -13,8 +13,6 @@ include("./inc/head.php");
         <?php
         include("./inc/banner.php");
         ?>
-
-
         <!-- =======================
 Page content START -->
         <section class="pt-4 pb-5">
