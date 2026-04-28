@@ -14,16 +14,17 @@ class Mailer
 
         // Server settings
         $this->mail->isSMTP();
-        $this->mail->Host       = '32.qservers.net'; 
+        $this->mail->Host       = 'mail.schelps.com.ng'; 
         $this->mail->SMTPAuth   = true;
-        $this->mail->Username   = 'noreply@lms.atibauniversity.edu.ng'; 
+        $this->mail->Username   = 'atibaodl@schelps.com.ng'; 
         $this->mail->Password   = 'MaskedPan@890'; 
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
         $this->mail->Port       = 465;
 
         // Default sender
-        $this->mail->setFrom('noreply@lms.atibauniversity.edu.ng', 'ODL - ATIBA University, OYO ');
+        $this->mail->setFrom('atibaodl@schelps.com.ng', 'ODL - ATIBA University, OYO ');
     }
+
 
     public function send($to, $subject, $htmlContent, $altContent = "")
     {

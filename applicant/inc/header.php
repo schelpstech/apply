@@ -25,7 +25,7 @@
                 <ul class="navbar-nav navbar-nav-scroll mx-auto">
 
                     <!-- Nav item 4 Support-->
-                    <li class="nav-item"><a class="nav-link" href="docs/alerts.html">Support</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://wa.me/+2347080024171">Support</a></li>
 
                     <!-- Nav item 5 link-->
                     <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end min-w-auto" data-bs-popper="none">
                             <li>
-                                <a class="dropdown-item" href="https://1.envato.market/stackbros-portfolio" target="_blank">
+                                <a class="dropdown-item" href="https://wa.me/+2347080024171" target="_blank">
                                     <i class="text-warning fa-fw bi bi-life-preserver me-2"></i>Support
                                 </a>
                             </li>

@@ -13,7 +13,7 @@ include 'app/query.php';
     <meta name="description" content="Atiba University Open and Distance Learning (ODL) - Application Portal">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="assets/images/atibaunimage.jpg">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">

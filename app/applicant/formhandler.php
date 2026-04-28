@@ -236,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $course_id   = intval($_POST['course_id'] ?? 0);
             $centre_id   = intval($_POST['centre_id'] ?? 0);
             $study_mode  = trim($_POST['study_mode'] ?? '');
-            $entry_level = trim($_POST['entry_level'] ?? '');
+            $entry_level = trim($_POST['entry_mode'] ?? '');
             $programme_type = trim($_POST['programme_type'] ?? '');
             $academic_session = trim($_POST['academic_session'] ?? '');
 
@@ -287,6 +287,155 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (Exception $e) {
             $utility->setFlash("danger", "Error: " . $e->getMessage());
             header("Location: ../../applicant/programmedetails.php");
+            exit;
+        }
+    } elseif (!empty($_POST['action']) && $utility->inputDecode($_POST['action']) == 'FORM_ADD_CREDENTIAL') {
+        try {
+
+            // Validate fields
+            $institution       = trim($_POST['institution'] ?? '');
+            $degree_awarded    = trim($_POST['degree_awarded'] ?? '');
+            $graduation_class  = trim($_POST['graduation_class'] ?? '');
+            $year_obtained     = intval($_POST['year_obtained'] ?? 0);
+
+            if (empty($institution) || empty($degree_awarded) || empty($graduation_class) || !$year_obtained) {
+                throw new Exception("All fields are required.");
+            }
+
+            if ($year_obtained > date('Y')) {
+                throw new Exception("Invalid year obtained.");
+            }
+
+            // Session check
+            $applicant_id = $_SESSION['applicant_id'] ?? null;
+            if (!$applicant_id) {
+                $utility->setFlash("danger", "Session expired. Please login again.");
+                header("Location: ../../signin.php");
+                exit;
+            }
+
+            // ===== FILE UPLOAD =====
+            if (!isset($_FILES['certificate']) || $_FILES['certificate']['error'] != 0) {
+                throw new Exception("Certificate upload is required.");
+            }
+
+            $file = $_FILES['certificate'];
+
+            // Validate size (2MB)
+            if ($file['size'] > 2 * 1024 * 1024) {
+                throw new Exception("File too large. Max 2MB allowed.");
+            }
+
+            // Validate type
+            $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+            if (!in_array($file['type'], $allowedTypes)) {
+                throw new Exception("Invalid file type. Only PDF, JPG, PNG allowed.");
+            }
+
+            // Upload directory
+            $uploadDir = "../../applicant/storage/credentials/";
+
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0775, true);
+            }
+
+            // Generate unique filename
+            $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $filename = "cert_" . $applicant_id . "_" . uniqid() . "." . $ext;
+
+            $destination = $uploadDir . $filename;
+
+            if (!move_uploaded_file($file['tmp_name'], $destination)) {
+                throw new Exception("Failed to upload certificate.");
+            }
+
+            // ===== PREVENT DUPLICATE =====
+            $exists = $model->exists("applicant_credentials", [
+                "applicant_id"   => $applicant_id,
+                "institution"    => $institution,
+                "degree_awarded" => $degree_awarded,
+                "year_obtained"  => $year_obtained
+            ]);
+
+            if ($exists) {
+                throw new Exception("This credential already exists.");
+            }
+
+            // ===== SAVE DATA =====
+            $data = [
+                "applicant_id"      => $applicant_id,
+                "institution"       => $institution,
+                "degree_awarded"    => $degree_awarded,
+                "graduation_class"  => $graduation_class,
+                "year_obtained"     => $year_obtained,
+                "certificate"       => $filename,
+                "created_at"        => date("Y-m-d H:i:s"),
+            ];
+
+            $insert = $model->insert("applicant_credentials", $data);
+
+            if (!$insert) {
+                throw new Exception("Failed to save credential.");
+            }
+
+            // Update progress
+            $model->update("applicant_progress", [
+                "credential_history" => 1
+            ], "prog_applicant_id = " . $applicant_id);
+
+            $utility->setFlash("success", "✅ Credential added successfully.");
+            header("Location: ../../applicant/credentialhistory.php");
+            exit;
+        } catch (Exception $e) {
+            $utility->setFlash("danger", "Error: " . $e->getMessage());
+            header("Location: ../../applicant/credentialhistory.php");
+            exit;
+        }
+    } elseif (!empty($_POST['action']) && $utility->inputDecode($_POST['action']) == 'DELETE_CREDENTIAL') {
+        try {
+
+            $id = intval($utility->inputDecode($_POST['id'] ?? 0));
+
+            if (!$id) {
+                throw new Exception("Invalid credential.");
+            }
+
+            $applicant_id = $_SESSION['applicant_id'] ?? null;
+            if (!$applicant_id) {
+                throw new Exception("Session expired.");
+            }
+
+            // Ensure user owns the record
+            $exists = $model->exists("applicant_credentials", [
+                "id" => $id,
+                "applicant_id" => $applicant_id
+            ]);
+
+            if (!$exists) {
+                throw new Exception("Unauthorized action.");
+            }
+
+            $model->delete("applicant_credentials", ["id" => $id]);
+
+            // check if there is still any credential left for applicant, if not update progress to 0
+            $exists = $model->exists("applicant_credentials", [
+                "id" => $id,
+                "applicant_id" => $applicant_id
+            ]);
+
+            if (!$exists) {
+                // Update progress
+                $model->update("applicant_progress", [
+                    "credential_history" => 0
+                ], "prog_applicant_id = " . $applicant_id);
+            }
+
+            $utility->setFlash("success", "Credential deleted successfully.");
+            header("Location: ../../applicant/credentialhistory.php");
+            exit;
+        } catch (Exception $e) {
+            $utility->setFlash("danger", "Error: " . $e->getMessage());
+            header("Location: ../../applicant/credentialhistory.php");
             exit;
         }
     } elseif (!empty($_POST['action']) && $utility->inputDecode($_POST['action']) == 'FORM_submit_docs') {

@@ -84,10 +84,9 @@ Page content START -->
                         <div class="mt-2 mt-sm-0">
                             <?php if (!$progress['admission_payment']) { ?>
                                 <a href="../app/applicant/paymentHandler.php" class="btn btn-gradient btn-sm mb-1">
-                                    Pay Application Fee - ₦20,000
+                                    Pay Portal Application Fee - ₦3,200
                                 </a>
                             <?php } ?>
-                            <a href="support.php" class="btn btn-outline-success btn-sm mb-1">Get Support</a>
                         </div>
                     </div>
 
@@ -105,6 +104,7 @@ Page content START -->
                                     'bio_data' => 'Bio-data Submission',
                                     'contact_details' => 'Contact Details Submission',
                                     'education_history' => 'Education History Submission',
+                                    'credential_history' => 'Academic Credential History Submission',
                                     'programme_details' => 'Programme Details Submission',
                                     'supporting_docs' => 'Supporting Documents Upload',
                                     'submission_status' => 'Application Form Submission'

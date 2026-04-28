@@ -24,6 +24,7 @@
                         'biodataform.php' => ['icon'=>'bi-person-badge','label'=>'Bio-Data'],
                         'contactform.php' => ['icon'=>'bi-telephone','label'=>'Contact Details'],
                         'educationhistform.php' => ['icon'=>'bi-mortarboard','label'=>'Education History'],
+                        'credentialhistory.php' => ['icon'=>'bi-mortarboard','label'=>'Credential History'],
                         'programmedetails.php' => ['icon'=>'bi-journal-text','label'=>'Programme Details'],
                         'documentform.php' => ['icon'=>'bi-upload','label'=>'Document Upload'],
                         'previewform.php' => ['icon'=>'bi-eye','label'=>'Application Preview']

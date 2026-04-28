@@ -54,14 +54,14 @@ class User
 
             // SMTP Settings
             $mail->isSMTP();
-            $mail->Host       = 'server163.web-hosting.com';
+            $mail->Host       = 'mail.owutechconsult.com.ng';
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'noreply@queenzy.assoec.org';
-            $mail->Password   = 'UNYOpat2017@';
+            $mail->Username   = 'atibaodl@owutechconsult.com.ng';
+            $mail->Password   = 'MaskedPan@890';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port       = 465;
 
-            $mail->setFrom('noreply@queenzy.assoec.org', 'Queenzy Stores');
+            $mail->setFrom('atibaodl@owutechconsult.com.ng', 'Queenzy Stores');
             $mail->addAddress($email);
 
             $mail->isHTML(true);

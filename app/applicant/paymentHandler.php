@@ -17,8 +17,8 @@ if (
 // Applicant info
 $applicantId = $_SESSION['applicant_id'];
 $email = $_SESSION['applicant_email'];
-$amount = 20300; // ₦20,300
-$callbackUrl = "https://atibaodl.schelps.com.ng/app/applicant/verifypayment.php";
+$amount = 3200; // ₦3,200
+$callbackUrl = "http://localhost/apply/app/applicant/verifypayment.php";
 
 // Generate unique reference
 $reference = strtoupper($utility->generateRandomString(8));

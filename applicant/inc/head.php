@@ -27,6 +27,7 @@ $pageTitle = "Dashboard - " . $applicantName . " | ATIBA ODL";
     <meta name="author" content="ATIBA University ODL Team">
     <meta name="description" content="ATIBA ODL (Open and Distance Learning) Portal - Empowering education through flexible online and distance learning solutions.">
     <meta name="keywords" content="ATIBA ODL, ATIBA University, Open Distance Learning, Online Education, eLearning, Nigeria">
+    <link rel="shortcut icon" href="../assets/images/atibaunimage.jpg">
     <script>
         const storedTheme = localStorage.getItem('theme')
 

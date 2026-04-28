@@ -3,27 +3,80 @@ include("./inc/head.php");
 ?>
 <style>
     @media print {
-        body {
-            background: #fff !important;
+
+        @page {
+            size: A4;
+            margin: 10mm;
+        }
+
+        body * {
+            visibility: hidden;
+        }
+
+        .print-container,
+        .print-container * {
+            visibility: visible;
+        }
+
+        .print-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 190mm;
+            min-height: 277mm;
+            margin: 0;
+            padding: 10mm;
+            background: #fff;
+            box-shadow: none;
         }
 
         .no-print {
             display: none !important;
         }
 
-        .print-container {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0;
-            padding: 15mm;
-            background: #fff;
+        body {
+            font-size: 12px;
+            line-height: 1.3;
+        }
+
+        .section-title {
+            font-size: 13px;
+            padding: 5px 8px;
+        }
+
+        .table-preview th,
+        .table-preview td {
+            padding: 4px;
+            font-size: 11px;
+        }
+
+        .application-header h2 {
+            font-size: 16px;
+        }
+
+        .application-header p {
+            font-size: 11px;
+        }
+
+        table,
+        tr,
+        td,
+        th {
+            page-break-inside: avoid !important;
         }
     }
 
+    /* A4 Preview on screen */
     .print-container {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 20px auto;
+        padding: 12mm;
         background: #fff;
-        padding: 40px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        transform: scale(0.95);
+        /* slightly shrink to fit screen */
+        transform-origin: top center;
     }
 
     .section-title {
@@ -38,15 +91,18 @@ include("./inc/head.php");
     .table-preview {
         width: 100%;
         border-collapse: collapse;
+        font-size: 12px;
     }
 
     .table-preview th {
-        width: 35%;
+        width: 30%;
         background: #f8f9fa;
         text-align: left;
         padding: 8px;
         border: 1px solid #dee2e6;
     }
+
+
 
     .table-preview td {
         padding: 8px;
@@ -101,20 +157,32 @@ Page content START -->
                         <div class="print-container">
 
                             <!-- HEADER -->
-                            <div class="application-header">
-                                <h2>APPLICATION FORM PREVIEW</h2>
-                                <p><strong>Distance Learning Programme</strong></p>
-                                <p>Academic Session: <?= htmlspecialchars($programme['academic_session'] ?? '-') ?></p>
-                                <hr>
+                            <div class="application-header d-flex align-items-center justify-content-between">
+
+                                <!-- LOGO -->
+                                <div>
+                                    <img src="../assets/images/atibaunimage.jpg" alt="University Logo"
+                                        style="width:70px; height:70px; object-fit:contain;">
+                                </div>
+
+                                <!-- TITLE -->
+                                <div style="text-align:center; flex:1;">
+                                    <h2 style="margin-bottom:5px;">ATIBA UNIVERSITY, OYO</h2>
+                                    <p><strong>Postgraduate School Application Form</strong></p>
+                                    <p>Academic Session: <?= htmlspecialchars($programme['academic_session'] ?? '-') ?></p>
+                                </div>
+
+                                <!-- PASSPORT -->
+                                <div>
+                                    <?php if (!empty($uploadedDocs['passport_photo'])): ?>
+                                        <img src="../<?= htmlspecialchars($uploadedDocs['passport_photo']) ?>"
+                                            style="width:80px; height:90px; object-fit:cover; border:1px solid #ccc;">
+                                    <?php endif; ?>
+                                </div>
+
                             </div>
 
-                            <!-- PASSPORT TOP RIGHT -->
-                            <div>
-                                <?php if (!empty($uploadedDocs['passport_photo'])): ?>
-                                    <img src="../<?= htmlspecialchars($uploadedDocs['passport_photo']) ?>"
-                                        style="width:120px; height:140px; object-fit:cover; border:1px solid #ccc;">
-                                <?php endif; ?>
-                            </div>
+                            <hr>
                             <!-- BIODATA -->
                             <div class="section-title">PERSONAL INFORMATION</div>
 
@@ -172,7 +240,7 @@ Page content START -->
                             <table class="table-preview mb-4">
                                 <tr>
                                     <th>Course of Study</th>
-                                    <td><?= htmlspecialchars($applicant_prog_data['course_name'] ?? '-') ?></td>
+                                    <td><?= htmlspecialchars($applicant_prog_data['degree_type'] . " - " . $applicant_prog_data['course_name'] ?? '-') ?></td>
                                 </tr>
                                 <tr>
                                     <th>Study Centre</th>
@@ -253,6 +321,44 @@ Page content START -->
                                 <table class="table-preview mb-4">
                                     <tr>
                                         <td style="text-align:center;">No O’Level Record Found</td>
+                                    </tr>
+                                </table>
+
+                            <?php endif; ?>
+
+                            <!-- ACADEMIC CREDENTIALS -->
+                            <div class="section-title">ACADEMIC QUALIFICATIONS</div>
+
+                            <?php if (!empty($applicant_credentials)): ?>
+
+                                <table class="table-preview mb-4">
+                                    <thead>
+                                        <tr>
+                                            <th>Institution</th>
+                                            <th>Degree</th>
+                                            <th>Class</th>
+                                            <th>Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <?php foreach ($applicant_credentials as $cred): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($cred['institution'] ?? '-') ?></td>
+                                                <td><?= htmlspecialchars($cred['degree_awarded'] ?? '-') ?></td>
+                                                <td><?= htmlspecialchars($cred['graduation_class'] ?? '-') ?></td>
+                                                <td><?= htmlspecialchars($cred['year_obtained'] ?? '-') ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+
+                                    </tbody>
+                                </table>
+
+                            <?php else: ?>
+
+                                <table class="table-preview mb-4">
+                                    <tr>
+                                        <td style="text-align:center;">No Academic Credentials Found</td>
                                     </tr>
                                 </table>
 

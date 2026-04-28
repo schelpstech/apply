@@ -1,23 +1,25 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require_once 'query.php';
-function sendEmail($to, $subject, $htmlContent, $altContent = "") {
+function sendEmail($to, $subject, $htmlContent, $altContent = "")
+{
     $mail = new PHPMailer(true);
 
     try {
         // Server settings
-        $mail->isSMTP();
-        $mail->Host       = '32.qservers.net'; // e.g., smtp.gmail.com
+          $mail->isSMTP();
+        $mail->Host       = 'mail.schelps.com.ng'; // e.g., smtp.gmail.com
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'noreply@lms.atibauniversity.edu.ng'; 
+        $mail->Username   = 'atibaodl@schelps.com.ng'; 
         $mail->Password   = 'MaskedPan@890'; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
         $mail->Port       = 465;
 
         // Recipients
-        $mail->setFrom('noreply@lms.atibauniversity.edu.ng', 'Atiba University ODL');
+        $mail->setFrom('atibaodl@schelps.com.ng', 'Atiba University ODL');
         $mail->addAddress($to);
 
         // Content

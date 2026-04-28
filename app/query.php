@@ -55,8 +55,8 @@ if (
             $applicant_contact_data = $contact; // assign first row
         }
     }
-        // Number of sittings saved
-    
+    // Number of sittings saved
+
     //fetch applicant education history
     $ssce_records = [];
     if ($applicantId) {
@@ -89,7 +89,6 @@ if (
         $programme = $model->getById("programme_details", "prog_applicant_id", $applicantId);
     }
 
-    //Fetch Applicant selected course details
     $applicant_prog_data = [];
     if ($applicantId) {
 
@@ -102,10 +101,23 @@ if (
             "return_type" => "single"
         ]);
 
-        if (!empty($contact)) {
-            $applicant_prog_data = $prog_data; // assign first row
+        if (!empty($prog_data)) {
+            $applicant_prog_data = $prog_data;
         }
     }
+
+    //Credential History
+
+    $applicant_credentials = [];
+
+    if (!empty($applicantId)) {
+        $applicant_credentials = $model->getRows("applicant_credentials", [
+            "where" => ["applicant_id" => intval($applicantId)],
+            "order_by" => "year_obtained DESC"
+        ]);
+    }
+
+
     //dashboard data
 
     // Assume applicantId is stored in session after login
@@ -120,10 +132,11 @@ if (
                 $progress['bio_data'] +
                 $progress['contact_details'] +
                 $progress['education_history'] +
+                $progress['credential_history'] +
                 $progress['programme_details'] +
                 $progress['supporting_docs'];
 
-            $total = 6;
+            $total = 7;
             $percent = intval(($completed / $total) * 100);
         } else {
             $progress = [
@@ -131,13 +144,14 @@ if (
                 'bio_data' => 0,
                 'contact_details' => 0,
                 'education_history' => 0,
+                'credential_history' => 0,
                 'programme_details' => 0,
                 'supporting_docs' => 0,
                 'updated_at' => date("Y-m-d H:i:s")
             ];
             $completed = 0;
             $percent = 0;
-            $total = 6;
+            $total = 7;
         }
     }
 
