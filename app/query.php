@@ -152,6 +152,8 @@ if (
             $completed = 0;
             $percent = 0;
             $total = 7;
+
+            
         }
     }
 
